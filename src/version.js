@@ -6,7 +6,7 @@
  * It's also logged to the browser console on load, and exposed as
  * window.__MILO_VERSION__ so you can check a deployed build without squinting.
  */
-export const VERSION = '1.4.0';
+export const VERSION = '1.4.1';
 export const BUILD_DATE = '2026-08-08';
 
 export const VERSION_LABEL = `v${VERSION} · ${BUILD_DATE}`;

@@ -18,19 +18,123 @@
     <title>Milo Lin — Game Art, Tech Art, Product</title>
     <meta
       name="description"
-      content="Milo Lin — Game Art and Animation at Northeastern. Environment art, motion capture pipelines, and live-service product work."
+      content="Milo Lin — Animation at Northeastern. Environment art, motion capture pipelines, and live-service product work."
     />
-
     <meta property="og:title" content="Milo Lin — Game Art, Tech Art, Product" />
     <meta
       property="og:description"
       content="Environment art, motion capture pipelines, and live-service product work."
     />
     <meta property="og:type" content="website" />
-    <meta name="theme-color" content="#05080D" />
+    <meta name="theme-color" content="#000000" />
+
+    <!-- Styles for the fallback notice below. The real stylesheet is imported
+         by main.jsx; these rules only ever show if the app hasn't started. -->
+    <style>
+      body {
+        margin: 0;
+        background: #000;
+        color: #fff;
+        font-family: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+      }
+      .boot {
+        max-width: 620px;
+        margin: 12vh auto;
+        padding: 0 24px;
+        line-height: 1.7;
+      }
+      .boot h1 {
+        font-size: 20px;
+        font-weight: 300;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin: 0 0 6px;
+      }
+      .boot .sub {
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin: 0 0 32px;
+      }
+      .boot h2 {
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #22d3ee;
+        margin: 28px 0 10px;
+      }
+      .boot p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 14px;
+        margin: 0 0 12px;
+      }
+      .boot code,
+      .boot pre {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 13px;
+        color: #fff;
+      }
+      .boot pre {
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 14px 16px;
+        overflow-x: auto;
+        margin: 0 0 12px;
+      }
+      .boot .file {
+        border: 1px solid rgba(34, 211, 238, 0.5);
+        padding: 14px 16px;
+        color: #fff;
+        font-size: 14px;
+      }
+      .boot ol {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 14px;
+        padding-left: 20px;
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- React replaces everything below the moment the app mounts.
+           You only ever see it if the app has NOT started — which is exactly
+           what happens when this file is opened directly from the filesystem. -->
+      <div class="boot">
+        <h1>Milo Lin</h1>
+        <p class="sub">This file needs a dev server</p>
+
+        <p>
+          You opened <code>index.html</code> straight from your folder. That can't
+          work, and it isn't a bug — this file is a build <em>source</em>, not a
+          finished page. It points at <code>/src/main.jsx</code>, and JSX has to be
+          compiled before a browser can run it.
+        </p>
+
+        <h2>Want to just look at the site?</h2>
+        <div class="file">
+          Double-click <code>milo-portfolio-preview.html</code> instead.<br />
+          One self-contained file. No install, no server, images included.
+        </div>
+
+        <h2>Want to run the real app?</h2>
+        <ol>
+          <li>Open a terminal in this folder</li>
+          <li>Run the two commands below</li>
+          <li>Visit the <code>localhost</code> address it prints</li>
+        </ol>
+        <pre>npm install
+npm run dev</pre>
+
+        <h2>Publishing it</h2>
+        <pre>npm run deploy</pre>
+        <p>
+          That builds into <code>dist/</code> and pushes to GitHub Pages. The
+          contents of <code>dist/</code> are the version that works when opened
+          from a server — never this file.
+        </p>
+      </div>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

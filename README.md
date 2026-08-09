@@ -1,6 +1,6 @@
 # Milo Lin — Portfolio
 
-**Current version: v1.4.0** — shown faintly in the bottom-right corner of the page.
+**Current version: v1.4.1** — shown faintly in the bottom-right corner of the page.
 
 Rebuilt from the original single-file `App.jsx` into an object-oriented React app.
 **17 roles, 21 projects**, populated from the resumes, the LinkedIn screenshots,
@@ -20,6 +20,34 @@ npm run deploy     # build + push to GitHub Pages
 > Moving to **milolinonline.com**? Change `base` in `vite.config.js` from
 > `'/MiloLin.github.io/'` to `'/'`.
 
+
+## ⚠ Don't open `index.html` directly
+
+Double-clicking `index.html` gives a white screen every time, and always would
+have. It isn't a bug — that file is a Vite **build source**, not a finished page:
+
+1. It points at `/src/main.jsx`. Over `file://`, that absolute path resolves to
+   your disk root, not to this folder.
+2. `main.jsx` is JSX. No browser can execute JSX — Vite compiles it first.
+3. ES modules are blocked by CORS over `file://` regardless.
+
+As of v1.4.1 it no longer goes white: open it and you get a page explaining this
+with the commands to run.
+
+**To just look at the site:** double-click **`OPEN-THIS-preview.html`**.
+One self-contained file, no install, no server.
+
+**To run the real app:**
+
+```bash
+npm install
+npm run dev
+```
+
+Then open the `localhost` address it prints. `npm run deploy` builds to `dist/`
+and pushes to GitHub Pages — `dist/` is what works on a server, never
+`index.html` on its own.
+
 ---
 
 ## If you get a white screen
@@ -29,7 +57,7 @@ console (F12) — the first red line names the file.
 
 **Check the version badge first.** Bottom-right corner of the page, very faint.
 Hover it to read it clearly. You can also type `__MILO_VERSION__` in the console,
-or just look for the teal startup line it logs. If it doesn't say **v1.4.0**,
+or just look for the teal startup line it logs. If it doesn't say **v1.4.1**,
 you're looking at an older build — most likely a stale `dist/` or a cached
 GitHub Pages deploy.
 
@@ -62,7 +90,7 @@ Two more things worth checking, both caused by unzipping over the old repo:
 
 ## Quick preview, no build step
 
-`milo-portfolio-preview.html` is a single self-contained file — open it directly
+`OPEN-THIS-preview.html` (also shipped as `milo-portfolio-preview.html`) is a single self-contained file — open it directly
 in a browser, no `npm install`, no server. Everything is inlined, including the
 images.
 

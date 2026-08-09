@@ -391,6 +391,7 @@ html = f"""<!doctype html>
 </html>
 """
 
-out = ROOT / "milo-portfolio-preview.html"
-out.write_text(html)
-print(f"wrote {out.name}  ({len(html) / 1024:.0f} KB)")
+for name in ("milo-portfolio-preview.html", "OPEN-THIS-preview.html"):
+    out = ROOT / name
+    out.write_text(html)
+    print(f"wrote {out.name}  ({len(html) / 1024:.0f} KB)")
