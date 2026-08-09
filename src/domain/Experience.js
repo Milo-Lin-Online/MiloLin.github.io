@@ -27,6 +27,10 @@ export class Experience extends Entity {
     this.highlight = data.highlight ?? null; // { value, label }
     this.logo = data.logo ?? null; // optional path to a real logo file
     this.brand = data.brand ?? '#6E7F91';
+
+    // Earlier titles held in the same organisation, oldest first.
+    // e.g. Ambassador → Vice President, or Art Designer → Art Director.
+    this.progression = data.progression ?? [];
   }
 
   get kindLabel() {
@@ -37,7 +41,13 @@ export class Experience extends Entity {
     return this.end === null;
   }
 
+  get hasProgression() {
+    return this.progression.length > 1;
+  }
+
+  /** Empty when dates are unknown, so the UI can hide the line entirely. */
   get period() {
+    if (!this.start) return '';
     return `${this.start} — ${this.end ?? 'Present'}`;
   }
 
@@ -82,17 +92,11 @@ export class CoopExperience extends Experience {
   get kindLabel() {
     return 'CO-OP';
   }
-  get accentVar() {
-    return '--lane-product';
-  }
 }
 
 export class InternshipExperience extends Experience {
   get kindLabel() {
     return 'INTERNSHIP';
-  }
-  get accentVar() {
-    return '--lane-product';
   }
 }
 
@@ -100,26 +104,17 @@ export class ResearchExperience extends Experience {
   get kindLabel() {
     return 'RESEARCH';
   }
-  get accentVar() {
-    return '--lane-tech';
-  }
 }
 
 export class StudioExperience extends Experience {
   get kindLabel() {
     return 'SHIPPED TITLE';
   }
-  get accentVar() {
-    return '--lane-art';
-  }
 }
 
 export class ClientProjectExperience extends Experience {
   get kindLabel() {
     return 'CLIENT PROJECT';
-  }
-  get accentVar() {
-    return '--lane-art';
   }
   get contextLine() {
     return [this.client && `Client: ${this.client}`, this.mode].filter(Boolean).join(' · ');
@@ -130,18 +125,11 @@ export class LeadershipExperience extends Experience {
   get kindLabel() {
     return 'LEADERSHIP';
   }
-  get accentVar() {
-    return '--lane-tech';
-  }
 }
 
 export class VolunteerExperience extends Experience {
   get kindLabel() {
     return 'VOLUNTEER';
-  }
-  /** Volunteering cuts across every lane, so it stays neutral. */
-  get accentVar() {
-    return '--lane-neutral';
   }
 }
 

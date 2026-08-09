@@ -1,5 +1,5 @@
 import { memo, useEffect } from 'react';
-import { ExternalLink, X } from 'lucide-react';
+import { ExternalLink, X } from './Icons.jsx';
 import { Bullets, Rich, TagRow } from './primitives.jsx';
 
 /**
@@ -11,7 +11,6 @@ const ProjectCard = memo(function ProjectCard({ project, onOpen }) {
     <button
       type="button"
       className={`proj-card${project.featured ? ' is-featured' : ''}`}
-      style={{ '--lane': `var(${project.accentVar})` }}
       onClick={() => onOpen(project)}
     >
       <div className="proj-media">
@@ -68,10 +67,10 @@ export function ProjectModal({ project, onClose }) {
       aria-modal="true"
       aria-label={project.title}
     >
-      <div className="modal" style={{ '--lane': `var(${project.accentVar})` }} onClick={(e) => e.stopPropagation()}>
+      <div className="modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-head">
           <div>
-            <p className="eyebrow">{project.kindLabel}</p>
+            <p className="aside-label">{project.kindLabel}</p>
             <h2 className="modal-title">{project.title}</h2>
             {project.subtitle && (
               <p className="modal-sub">
@@ -102,7 +101,7 @@ export function ProjectModal({ project, onClose }) {
 
           {project.tools?.length > 0 && (
             <div>
-              <p className="eyebrow" style={{ marginBottom: 9 }}>
+              <p className="aside-label" style={{ marginBottom: 9 }}>
                 Tools
               </p>
               <TagRow items={project.tools} />

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Mail, Linkedin, Play } from 'lucide-react';
+import { Mail, Linkedin, Play } from './Icons.jsx';
 
 /** The boat, reused as the nav mark and the favicon. */
 export function BoatMark({ size = 17 }) {
@@ -32,7 +32,6 @@ export function Nav({ portfolio, current, onNavigate }) {
               type="button"
               key={lane.key}
               className={`nav-link${current === lane.key ? ' is-active' : ''}`}
-              style={{ '--lane': `var(${lane.accentVar})` }}
               onClick={() => onNavigate(lane.key)}
             >
               {lane.label}

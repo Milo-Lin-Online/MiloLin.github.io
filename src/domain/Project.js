@@ -66,9 +66,6 @@ export class ArtProject extends Project {
     return 'ART';
   }
 
-  get accentVar() {
-    return '--lane-art';
-  }
 
   get metaLine() {
     return [this.year, this.tools.join(' / ')].filter(Boolean).join('  ·  ');
@@ -80,9 +77,6 @@ export class TechArtProject extends Project {
     return 'TECH ART';
   }
 
-  get accentVar() {
-    return '--lane-tech';
-  }
 
   get metaLine() {
     return [this.year, this.tools.join(' / ')].filter(Boolean).join('  ·  ');
@@ -94,9 +88,6 @@ export class ProductProject extends Project {
     return 'PRODUCT';
   }
 
-  get accentVar() {
-    return '--lane-product';
-  }
 
   /** Product work is read by role and outcome first, tools second. */
   get metaLine() {

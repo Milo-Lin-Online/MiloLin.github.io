@@ -12,7 +12,7 @@ export class Lane {
     this.short = short ?? label;
     this.tagline = tagline ?? '';
     this.blurb = blurb ?? '';
-    this.accentVar = accentVar ?? '--lane-neutral';
+    this.accentVar = accentVar ?? '--accent';
     this.reelId = reelId;
     this._projects = projects;
   }

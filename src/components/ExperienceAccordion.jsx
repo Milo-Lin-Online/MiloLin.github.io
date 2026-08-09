@@ -1,17 +1,11 @@
 import { memo, useCallback, useId, useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown } from './Icons.jsx';
 import { Avatar, Bullets, Rich, TagRow } from './primitives.jsx';
 
 const LANE_LABELS = {
   art: '3D Art',
   techart: 'Tech Art',
   product: 'Product + Marketing',
-};
-
-const LANE_VARS = {
-  art: '--lane-art',
-  techart: '--lane-tech',
-  product: '--lane-product',
 };
 
 /**
@@ -25,7 +19,6 @@ const ExperienceRow = memo(function ExperienceRow({ experience, isOpen, onToggle
   return (
     <div
       className={`acc-item${isOpen ? ' is-open' : ''}`}
-      style={{ '--lane': `var(${experience.accentVar})` }}
     >
       <button
         type="button"
@@ -52,9 +45,10 @@ const ExperienceRow = memo(function ExperienceRow({ experience, isOpen, onToggle
 
         <span className="acc-badge">{experience.kindLabel}</span>
 
+        {/* Rendered even when empty so the grid columns stay aligned. */}
         <span className="acc-period">
           {experience.period}
-          {experience.isCurrent && ' ●'}
+          {experience.period && experience.isCurrent ? ' ●' : ''}
         </span>
 
         <ChevronDown className="acc-chevron" size={18} aria-hidden="true" />
@@ -75,42 +69,39 @@ const ExperienceRow = memo(function ExperienceRow({ experience, isOpen, onToggle
 
             {/* Right: the panel that fills the space */}
             <aside className="acc-aside">
-              {experience.highlight ? (
+              {experience.hasProgression && (
                 <div className="aside-block">
-                  <p className="eyebrow">Highlight</p>
-                  <p className="highlight-value">{experience.highlight.value}</p>
-                  <p className="highlight-label">{experience.highlight.label}</p>
-                </div>
-              ) : (
-                <div className="aside-block">
-                  <p className="eyebrow">{experience.kindLabel}</p>
-                  <p className="highlight-label" style={{ marginTop: 8 }}>
-                    {experience.org}
-                  </p>
+                  <p className="aside-label">Progression</p>
+                  <ol className="progression">
+                    {experience.progression.map((step, i) => (
+                      <li
+                        key={step.role}
+                        className={i === experience.progression.length - 1 ? 'is-current' : ''}
+                      >
+                        <span className="progression-role">{step.role}</span>
+                        {step.note && <span className="progression-note">{step.note}</span>}
+                      </li>
+                    ))}
+                  </ol>
                 </div>
               )}
 
               {experience.tools?.length > 0 && (
                 <div className="aside-block">
-                  <p className="eyebrow" style={{ marginBottom: 9 }}>
-                    Tools & methods
-                  </p>
+                  <p className="aside-label">Tools &amp; methods</p>
                   <TagRow items={experience.tools} />
                 </div>
               )}
 
               {experience.lanes?.length > 0 && (
                 <div className="aside-block">
-                  <p className="eyebrow" style={{ marginBottom: 9 }}>
-                    Related work
-                  </p>
+                  <p className="aside-label">Related work</p>
                   <div className="tag-row">
                     {experience.lanes.map((lane) => (
                       <button
                         type="button"
                         key={lane}
                         className="lane-chip"
-                        style={{ '--chip': `var(${LANE_VARS[lane]})` }}
                         onClick={() => onLaneSelect?.(lane)}
                       >
                         {LANE_LABELS[lane] ?? lane} →
@@ -144,9 +135,10 @@ export default function ExperienceAccordion({ groups, onLaneSelect, defaultOpenI
         <section className="acc-group" key={group.key}>
           <header className="acc-group-head">
             <h3>{group.label}</h3>
-            {group.note && <span className="section-note">{group.note}</span>}
+            {group.note && <span className="acc-note">{group.note}</span>}
           </header>
 
+          <div className="acc-list">
           {group.items.map((experience) => (
             <ExperienceRow
               key={experience.id}
@@ -156,6 +148,7 @@ export default function ExperienceAccordion({ groups, onLaneSelect, defaultOpenI
               onLaneSelect={onLaneSelect}
             />
           ))}
+          </div>
         </section>
       ))}
     </div>

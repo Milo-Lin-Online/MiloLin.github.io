@@ -1,138 +1,78 @@
-import { Linkedin } from 'lucide-react';
+import { Youtube, Linkedin, Mail, ChevronRight } from '../components/Icons.jsx';
 import ExperienceAccordion from '../components/ExperienceAccordion.jsx';
-import { SectionHead, TagRow } from '../components/primitives.jsx';
+import { TagRow } from '../components/primitives.jsx';
+import { Reel } from '../components/Chrome.jsx';
 
-const LANE_VARS = {
-  art: '--lane-art',
-  techart: '--lane-tech',
-  product: '--lane-product',
-};
-
+/**
+ * Section order follows the original site exactly:
+ * DEMO REEL → ABOUT ME → PROFESSIONAL EXPERIENCE → PORTFOLIO → SKILLS → CONNECT
+ */
 export default function HomePage({ portfolio, onNavigate }) {
   const { profile } = portfolio;
 
   return (
-    <main id="main">
-      {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section className="hero">
-        <div className="wrap hero-inner">
-          <div>
-            <p className="eyebrow">{'Game Art & Animation · Northeastern \u201927'}</p>
-            <h1 className="hero-name">
-              Milo
-              <em>Lin</em>
-            </h1>
-            <p className="hero-lanes">{profile.lanesLine}</p>
+    <main id="main" className="page">
+      <div className="wrap">
+        <header className="masthead">
+          <figure className="masthead-portrait">
+            <img
+              src={profile.photo}
+              srcSet={`${profile.photo} 780w, ${profile.photo2x} 1200w`}
+              sizes="200px"
+              alt={profile.photoAlt}
+              width="780"
+              height="1040"
+              fetchPriority="high"
+            />
+            <figcaption>{profile.photoCaption}</figcaption>
+          </figure>
+          <h1>MILO LIN</h1>
+          <p>{profile.tagline}</p>
+        </header>
 
-            <div className="hero-meta">
-              <span>{profile.location}</span>
-              <span>{profile.email}</span>
-            </div>
+        <section className="section">
+          <h2 className="section-label">Demo Reel</h2>
+          <Reel videoId={profile.reelId} />
+        </section>
 
-            <div className="hero-cta">
-              {portfolio.lanes.map((lane) => (
-                <button
-                  type="button"
-                  key={lane.key}
-                  className="lane-btn"
-                  style={{ '--lane': `var(${lane.accentVar})` }}
-                  onClick={() => onNavigate(lane.key)}
-                >
-                  <span className="lane-dot" />
-                  {lane.label}
-                  <span style={{ color: 'var(--faint)' }}>{lane.count}</span>
-                </button>
-              ))}
-            </div>
+        <section className="section">
+          <h2 className="section-label">About Me</h2>
+          <div className="panel about">
+            {profile.about.map((paragraph, i) => (
+              <p key={i}>{paragraph}</p>
+            ))}
+            <p className="edu-line">
+              <strong>{profile.education.school}</strong> — {profile.education.degree},{' '}
+              {profile.education.minor}. {profile.education.detail}. {profile.education.period}.
+            </p>
           </div>
+        </section>
 
-          <img
-            className="hero-photo"
-            src={profile.photo}
-            srcSet={`${profile.photo} 640w, ${profile.photo2x} 1120w`}
-            sizes="(max-width: 720px) 60vw, 268px"
-            alt={profile.photoAlt}
-            width="268"
-            height="268"
-            fetchPriority="high"
-          />
-        </div>
-      </section>
-
-      {/* ── Who I am / What I do ─────────────────────────────────────────── */}
-      <section className="section">
-        <div className="wrap">
-          <SectionHead eyebrow="About" title="Who I am" />
-
-          <div className="about-grid">
-            <div>
-              <div className="prose">
-                {profile.whoIAm.map((paragraph, i) => (
-                  <p key={i}>{paragraph}</p>
-                ))}
-              </div>
-
-              <div className="edu-card">
-                <p className="eyebrow">Education</p>
-                <h3>{profile.education.school}</h3>
-                <p>{profile.education.degree}</p>
-                <p>{profile.education.minor}</p>
-                <p style={{ marginTop: 8, color: 'var(--faint)' }}>{profile.education.detail}</p>
-                <p style={{ marginTop: 6, fontFamily: 'var(--mono)', fontSize: 11 }}>
-                  {profile.education.period}
-                </p>
-              </div>
-            </div>
-
-            <div>
-              <p className="eyebrow" style={{ marginBottom: 14 }}>
-                What I do
-              </p>
-              <div className="do-list">
-                {profile.whatIDo.map((item) => (
-                  <article
-                    className="do-card"
-                    key={item.lane}
-                    style={{ '--lane': `var(${LANE_VARS[item.lane]})` }}
-                  >
-                    <h3>{item.title}</h3>
-                    <p>{item.body}</p>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Experience ───────────────────────────────────────────────────── */}
-      <section className="section" id="experience">
-        <div className="wrap">
-          <SectionHead
-            eyebrow="Experience"
-            title={'Where I\u2019ve worked'}
-            note="Open a role for the detail"
-          />
+        <section className="section" id="experience">
+          <h2 className="section-label">Professional Experience</h2>
           <ExperienceAccordion groups={portfolio.groups} onLaneSelect={onNavigate} />
+        </section>
 
-          <div style={{ marginTop: 34 }}>
-            <a
-              className="link-pill"
-              href={profile.linkedin}
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              <Linkedin size={13} /> See more updates on my LinkedIn
-            </a>
+        <section className="section">
+          <h2 className="section-label">Portfolio</h2>
+          <div className="portfolio-grid">
+            {portfolio.lanes.map((lane) => (
+              <button
+                type="button"
+                key={lane.key}
+                className="portfolio-btn"
+                onClick={() => onNavigate(lane.key)}
+              >
+                <h3>{lane.label.toUpperCase()}</h3>
+                <p>{lane.tagline}</p>
+                <ChevronRight size={16} />
+              </button>
+            ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ── Skills & awards ──────────────────────────────────────────────── */}
-      <section className="section">
-        <div className="wrap">
-          <SectionHead eyebrow="Toolkit" title="Skills & awards" />
-
+        <section className="section">
+          <h2 className="section-label">Skills</h2>
           <div className="skill-grid">
             {Object.entries(profile.skills).map(([group, items]) => (
               <div className="skill-block" key={group}>
@@ -140,18 +80,24 @@ export default function HomePage({ portfolio, onNavigate }) {
                 <TagRow items={items} />
               </div>
             ))}
-
-            <div className="skill-block">
-              <h4>Awards</h4>
-              <ul className="bullets" style={{ '--lane': 'var(--lane-product)' }}>
-                {profile.awards.map((award) => (
-                  <li key={award}>{award}</li>
-                ))}
-              </ul>
-            </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        <section className="section" style={{ marginBottom: 0 }}>
+          <h2 className="section-label">Connect</h2>
+          <div className="connect-row">
+            <a className="connect-btn" href={profile.youtube} target="_blank" rel="noreferrer noopener" aria-label="YouTube">
+              <Youtube size={16} />
+            </a>
+            <a className="connect-btn" href={profile.linkedin} target="_blank" rel="noreferrer noopener" aria-label="LinkedIn">
+              <Linkedin size={16} />
+            </a>
+            <a className="connect-btn" href={`mailto:${profile.email}`} aria-label="Email">
+              <Mail size={16} />
+            </a>
+          </div>
+        </section>
+      </div>
     </main>
   );
 }

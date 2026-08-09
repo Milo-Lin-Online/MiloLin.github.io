@@ -35,8 +35,12 @@ export class Entity {
     return 'ITEM';
   }
 
+  /**
+   * One accent for the whole site, matching the original design. Subclasses can
+   * override this if per-section colour is ever wanted again.
+   */
   get accentVar() {
-    return '--lane-neutral';
+    return '--accent';
   }
 
   /** Everything a search box should look at. Subclasses widen this. */
