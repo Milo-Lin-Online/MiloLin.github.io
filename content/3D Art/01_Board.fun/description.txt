@@ -1,0 +1,8 @@
+Art direction for Board, a 24-inch face-to-face game console where physical
+pieces sit directly on an interactive display. I joined as the only 3D artist
+on a roughly 20-person team and was promoted to Art Director.
+
+The format rewrites the art brief completely: everything has to read from every
+seat around the table, at a glance, upside down included. These are process
+shots with the Blender viewport left visible, so you can see the toolset and the
+stage the work was at.

@@ -1,0 +1,65 @@
+name: Deploy portfolio to GitHub Pages
+
+# Why this exists:
+# GitHub Pages serves BUILT output, not source. Pushing src/ to main does
+# nothing on its own — someone has to run `npm run build` and publish `dist/`.
+# This workflow does that automatically on every push, so what's on main is
+# always what's live.
+
+on:
+  push:
+    branches: [main]
+  # Lets you re-deploy by hand from the Actions tab without a new commit.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# If you push twice quickly, finish the newer one and drop the older.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # `npm install`, deliberately not `npm ci`.
+      # The committed package-lock.json predates the dependency cleanup
+      # (it still lists tailwindcss, lucide-react and eslint), and `npm ci`
+      # aborts when the lockfile disagrees with package.json. `npm install`
+      # reconciles them instead of failing the build.
+      - name: Install dependencies
+        run: npm install
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload dist/ as the Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

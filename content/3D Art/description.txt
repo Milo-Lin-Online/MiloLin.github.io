@@ -1,0 +1,3 @@
+Environments, props, and short-form animation. This section is generated
+straight from the folders inside content/3D Art — drop a new folder in with
+numbered images and it appears here, in order, without touching any code.
